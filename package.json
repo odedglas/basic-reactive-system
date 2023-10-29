@@ -1,0 +1,16 @@
+{
+  "name": "ramp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "compile": "tsc",
+    "test": "ts-node ./spec.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}

@@ -1,0 +1,59 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+.git/
+
+# compiled output
+dist/
+
+# dependencies
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# IDEs and editors
+/.idea
+/.vscode
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+coverage/
+/libpeerconnection.log
+npm-debug.log*
+testem.log
+/typings
+storybook-static
+id_rsa
+.cache
+junit.xml
+
+# eslint
+eslint-report.html
+.eslintcache
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# stats
+stats-build-output
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
