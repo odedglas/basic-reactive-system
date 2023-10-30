@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { createSignal, createEffect, createMemo, batch } from './index';
+import { createSignal, createEffect, createMemo, batch, untrack } from './index';
 
 /**
  * Asserts a given actual value is deeply equals to expected one
@@ -95,6 +95,26 @@ const testEffectsScenarios = () => {
     dynamicTracking();
 };
 
+const testUntrackScenarios = () => {
+    let effectTriggers = 0;
+
+    const [firstName, setFirstName] = createSignal("John");
+    const [lastName, setLastName] = createSignal("Smith");
+
+    createEffect(() => {
+        untrack(() => {
+            const unusedTrackedMemo = firstName() + lastName();
+        });
+
+        effectTriggers++;
+    });
+
+    setFirstName('Dor');
+    setLastName('Mew');
+
+    assert('Effect won\'t observe untracked signals scope', effectTriggers, 1);
+}
+
 const testMemoScenarios = () => {
     let displayNameCalculations = 0;
     let effectTriggers = 0;
@@ -178,6 +198,9 @@ const main = () => {
 
     testBatchingScenarios();
     console.log(' ✅ Batch tests scenarios fully passed ✅ ');
+
+    testUntrackScenarios();
+    console.log(' ✅ Untrack tests scenarios fully passed ✅ ');
 };
 
 main();

@@ -1,9 +1,18 @@
-import { Callback, Effect, SignalNode } from './types';
+import {Callback, Effect, Owner, SignalNode} from './types';
 
+const UNOWNED: Owner = {
+    owner: null,
+    owned: []
+};
 const runningEffects: Effect[] = [];
 let Updates: Effect[];
 
 const getRunningEffect = () => runningEffects[runningEffects.length - 1];
+
+const addToOwner = (owner: Owner, effect: Effect) => {
+    owner.owned ||= [];
+    owner.owned.push(effect);
+}
 
 const flushUpdates = () => {
     let flushedIndex = 0;
@@ -108,8 +117,7 @@ export function createEffect(fn: Callback) {
     };
 
     if (owner) {
-        owner.owned ||= [];
-        owner.owned.push(effect);
+        addToOwner(owner, effect);
     }
 
     runEffect(effect);
@@ -121,6 +129,17 @@ export function createMemo(fn: Callback) {
     return memoReadOnlySignal;
 }
 
-export function batch(fn: Callback) {
-    runUpdates(fn);
+export const untrack = (fn: Callback) => {
+    let runningEffect = runningEffects.pop();
+
+    fn();
+
+    if (runningEffect) {
+        runningEffects.push(runningEffect)
+    }
 }
+
+export const batch = (fn: Callback) => {
+    runUpdates(fn);
+};
+
